@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { Form } from "semantic-ui-react";
 
-function PokemonForm({}) {
+function PokemonForm({handleFormSubmit}) {
   const [newName, setNewName] = useState("")
   const [newHp, setNewHp] = useState("")
   const [newFrontImage, setNewFrontImage] = useState("")
@@ -35,23 +35,25 @@ function PokemonForm({}) {
           const formData= {
             name: newName,
             hp: newHp,
-            frontSprite: newFrontImage,
-            backSprite: newBackImage,
+            sprites: {
+               frontSprite: newFrontImage,
+               backSprite: newBackImage,
+              }
           }
           fetch("http://localhost:3001/pokemon",{
             method: "POST",
             headers: {
-              "Constent-Type": "application/json"
+              "Content-Type": "application/json"
             },
             body: JSON.stringify(formData)
           })
             .then((r) => r.json())
-            .then((newPokemon) => console.log(newPokemon))
-         // const updatedPokemonCollection = [...pokemon, newPokemon] setPokemon(updatedPokemonCollection)
+            .then((newPokemon) => handleFormSubmit(newPokemon))
+        
         }
       }
       >
-        <Form.Group widths="equal">
+        <Form.Group widths="equal" onSubmit={handleFormSubmit}>
           <Form.Input fluid label="Name" placeholder="Name" name="name" value={newName} onChange={handleNameChange}/>
           <Form.Input fluid label="hp" placeholder="hp" name="hp" value={newHp} onChange={handleHpChange}/>
           <Form.Input

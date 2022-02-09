@@ -1,15 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import { Card } from "semantic-ui-react";
 
 function PokemonCard({singlePokemon}) {
+  const [isOn, setIsOn] = useState(true)
 
-  
+
+  function handleCardClick() {
+   setIsOn( (isOn) => !isOn)
+   
+  }
 
   return (
     <Card>
-      <div>
+      <div onClick={handleCardClick}>
         <div className="image">
-          <img alt="oh no!" scr={singlePokemon.sprites.front}/>
+          {isOn ? <img alt="oh no!" scr={singlePokemon.sprites.front}/> : <img alt="backSprite!" scr={singlePokemon.sprites.back}/>}
+          
         </div>
         <div className="content">
           <div className="header">{singlePokemon.name}</div>
